@@ -13,20 +13,14 @@ fun main() {
 
 private fun exploreOptics() {
     val p = Person(
-        name = Name("John Doe"),
-        age = Age(40),
-        addresses = NonEmptySet.of(
+        Name("John Doe"),
+        Age(40),
+        NonEmptySet.of(
             setOf(
-                Address(
-                    street = Street(name = Name("Main"), number = 40),
-                    city = City(name = Name("Dublin"), country = Country("ireland"))
-                ),
-                Address(
-                    street = Street(name = Name("Bob Williams"), number = 4),
-                    city = City(name = Name("Cork"), country = Country("ireland"))
-                )
+                Address(Street(Name("Main"), 40), City(Name("Dublin"), Country("ireland"))),
+                Address(Street(Name("Bob Williams"), 4), City(Name("Cork"), Country("ireland")))
             )
-        ),
+        )
     )
 
     println(p.capitalizeCountryModify())
@@ -39,9 +33,9 @@ private fun exploreIorAndPatternMatching() {
         None -> println("Ior is empty")
         is Some -> maybeIor.value
             .fold(
-                { left -> println("Ior is left: ${left}") },
-                { right -> println("Ior is right: ${right}") },
-                { left, right -> println("Ior is both: left = ${left}, right = ${right}") }
+                { left -> println("Ior is left: $left") },
+                { right -> println("Ior is right: $right") },
+                { left, right -> println("Ior is both: left = ${left}, right = $right") }
             )
     }
 }
