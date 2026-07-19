@@ -1,4 +1,4 @@
-package com.github.gerdreiss.explore.types
+package com.github.gerdreiss.explore.ior
 
 import arrow.core.Ior
 import arrow.core.Option

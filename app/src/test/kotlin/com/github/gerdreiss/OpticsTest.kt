@@ -9,27 +9,34 @@ import kotlin.test.Test
 import kotlin.test.assertContentEquals
 
 class OpticsTest {
-    private val person = Person(
-        name = Name("John Doe"),
-        age = Age(40),
-        addresses = NonEmptySet.of(
-            setOf(
-                Address(
-                    street = Street(name = Name("Main"), number = 40),
-                    city = City(name = Name("Dublin"), country = Country("ireland"))
+    private val person =
+        Person(
+            name = Name("John Doe"),
+            age = Age(40),
+            addresses =
+                NonEmptySet.of(
+                    setOf(
+                        Address(
+                            street = Street(name = Name("Main"), number = 40),
+                            city = City(name = Name("Dublin"), country = Country("ireland")),
+                        ),
+                        Address(
+                            street = Street(name = Name("Bob Williams"), number = 4),
+                            city = City(name = Name("Cork"), country = Country("ireland")),
+                        ),
+                    ),
                 ),
-                Address(
-                    street = Street(name = Name("Bob Williams"), number = 4),
-                    city = City(name = Name("Cork"), country = Country("ireland"))
-                )
-            )
-        ),
-    )
+        )
 
     @Test
     fun modifiedAllCountriesToCapitalized() {
         val expected = arrayOf("Ireland", "Ireland")
-        val actual = person.capitalizeCountryModify().addresses.map { it.city.country.name }.toTypedArray()
+        val actual =
+            person
+                .capitalizeCountryModify()
+                .addresses
+                .map { it.city.country.name }
+                .toTypedArray()
 
         assertContentEquals(actual, expected, "That was unexpected!...")
     }
@@ -37,11 +44,12 @@ class OpticsTest {
     @Test
     fun modifiedOneCountryToCapitalized() {
         val expected = arrayOf("ireland", "Ireland")
-        val actual = person
-            .capitalizeCountryWhere({ it.city.name.value == "Cork" })
-            .addresses
-            .map { it.city.country.name }
-            .toTypedArray()
+        val actual =
+            person
+                .capitalizeCountryWhere({ it.city.name.value == "Cork" })
+                .addresses
+                .map { it.city.country.name }
+                .toTypedArray()
 
         assertContentEquals(actual, expected, "That was unexpected!...")
     }

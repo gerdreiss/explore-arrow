@@ -9,6 +9,7 @@
 plugins {
     // Apply the foojay-resolver plugin to allow automatic download of JDKs
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+    id("de.fayard.refreshVersions") version "0.60.6"
 }
 
 rootProject.name = "explore-arrow"

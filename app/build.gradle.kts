@@ -30,10 +30,11 @@ dependencies {
 testing {
     suites {
         // Configure the built-in test suite
-        val test = named<JvmTestSuite>("test") {
-            // Use Kotlin Test test framework
-            useKotlinTest(libs.versions.kotlin)
-        }
+        val test =
+            named<JvmTestSuite>("test") {
+                // Use Kotlin Test test framework
+                useKotlinTest(libs.versions.kotlin)
+            }
     }
 }
 
