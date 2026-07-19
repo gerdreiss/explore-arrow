@@ -4,7 +4,15 @@
 package com.github.gerdreiss
 
 import arrow.core.NonEmptySet
-import com.github.gerdreiss.explore.optics.*
+import com.github.gerdreiss.explore.optics.Address
+import com.github.gerdreiss.explore.optics.Age
+import com.github.gerdreiss.explore.optics.City
+import com.github.gerdreiss.explore.optics.Country
+import com.github.gerdreiss.explore.optics.Name
+import com.github.gerdreiss.explore.optics.Person
+import com.github.gerdreiss.explore.optics.Street
+import com.github.gerdreiss.explore.optics.capitalizeCountryModify
+import com.github.gerdreiss.explore.optics.capitalizeCountryWhere
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 
@@ -14,18 +22,18 @@ class OpticsTest {
             name = Name("John Doe"),
             age = Age(40),
             addresses =
-                NonEmptySet.of(
-                    setOf(
-                        Address(
-                            street = Street(name = Name("Main"), number = 40),
-                            city = City(name = Name("Dublin"), country = Country("ireland")),
-                        ),
-                        Address(
-                            street = Street(name = Name("Bob Williams"), number = 4),
-                            city = City(name = Name("Cork"), country = Country("ireland")),
-                        ),
+            NonEmptySet.of(
+                setOf(
+                    Address(
+                        street = Street(name = Name("Main"), number = 40),
+                        city = City(name = Name("Dublin"), country = Country("ireland")),
+                    ),
+                    Address(
+                        street = Street(name = Name("Bob Williams"), number = 4),
+                        city = City(name = Name("Cork"), country = Country("ireland")),
                     ),
                 ),
+            ),
         )
 
     @Test

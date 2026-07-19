@@ -12,38 +12,26 @@ import kotlin.random.Random
 sealed class UserProblem {
     object EmptyName : UserProblem()
 
-    data class NegativeAge(
-        val age: Int,
-    ) : UserProblem()
+    data class NegativeAge(val age: Int) : UserProblem()
 }
 
 sealed interface UserError {
     val message: String
 }
 
-data class UserNotFound(
-    override val message: String,
-) : UserError
+data class UserNotFound(override val message: String) : UserError
 
 @JvmInline
-value class UserId(
-    val value: String,
-)
+value class UserId(val value: String)
 
 @JvmInline
-value class Name(
-    val value: String,
-)
+value class Name(val value: String)
 
 @JvmInline
-value class Age(
-    val value: Int,
-)
+value class Age(val value: Int)
 
 @JvmInline
-value class City(
-    val value: String,
-)
+value class City(val value: String)
 
 data class User(
     val id: UserId,
@@ -57,31 +45,28 @@ fun buildUser(
     name: String,
     age: Int,
     city: String,
-): Either<NonEmptyList<UserProblem>, User> =
-    either {
-        accumulate {
-            ensureOrAccumulate(name.isNotEmpty()) { UserProblem.EmptyName }
-            ensureOrAccumulate(age >= 0) { UserProblem.NegativeAge(age) }
-            User(UserId(Random.nextInt().toString()), Name(name), Age(age), City(city))
-        }
+): Either<NonEmptyList<UserProblem>, User> = either {
+    accumulate {
+        ensureOrAccumulate(name.isNotEmpty()) { UserProblem.EmptyName }
+        ensureOrAccumulate(age >= 0) { UserProblem.NegativeAge(age) }
+        User(UserId(Random.nextInt().toString()), Name(name), Age(age), City(city))
     }
+}
 
 // these signatures mark the possible errors
-suspend fun findUser(id: UserId): Either<UserNotFound, User> =
-    if (Random.nextBoolean()) {
-        User(id, Name("John"), Age(40), City("Murmansk")).right()
-    } else {
-        UserNotFound("User not found").left()
-    }
+suspend fun findUser(id: UserId): Either<UserNotFound, User> = if (Random.nextBoolean()) {
+    User(id, Name("John"), Age(40), City("Murmansk")).right()
+} else {
+    UserNotFound("User not found").left()
+}
 
 // you build larger computations using the 'Raise' DSL
 suspend fun fromTheSameCity(
     id1: UserId,
     id2: UserId,
-): Either<UserNotFound, Boolean> =
-    either {
-        // this begins a 'Raise' block
-        val user1 = findUser(id1).bind() // 'bind' aborts computation on failure
-        val user2 = findUser(id2).bind()
-        return (user1.city == user2.city).right()
-    }
+): Either<UserNotFound, Boolean> = either {
+    // this begins a 'Raise' block
+    val user1 = findUser(id1).bind() // 'bind' aborts computation on failure
+    val user2 = findUser(id2).bind()
+    return (user1.city == user2.city).right()
+}

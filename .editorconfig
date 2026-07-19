@@ -1,5 +1,6 @@
-[*.{kt,kts}]
-ktlint_standard_filename = disabled
-
-[{**/build/**/*.kt}]
+[app/build/**/*.{kt,kts}]
 ktlint = disabled
+
+[app/src/**/*.{kt,kts}]
+ktlint_code_style = intellij_idea
+ktlint_standard_filename = disabled

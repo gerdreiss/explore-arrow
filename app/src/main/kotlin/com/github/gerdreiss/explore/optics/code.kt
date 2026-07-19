@@ -57,18 +57,15 @@ data class Person(
 
 fun String.capitalize(): String = this.replaceFirstChar { it.uppercaseChar() }
 
-fun Person.capitalizeCountryModify(): Person =
-    Person.addresses.every.city.country
-        .modify(this) { Country(it.name.capitalize()) }
+fun Person.capitalizeCountryModify(): Person = Person.addresses.every.city.country
+    .modify(this) { Country(it.name.capitalize()) }
 
-fun Person.capitalizeCountryCopy(): Person =
-    this.copy {
-        Person.addresses.every.city.country transform { Country(it.name.capitalize()) }
-    }
+fun Person.capitalizeCountryCopy(): Person = this.copy {
+    Person.addresses.every.city.country transform { Country(it.name.capitalize()) }
+}
 
 @OptIn(DelicateOptic::class)
-fun Person.capitalizeCountryWhere(predicate: (Address) -> Boolean): Person =
-    Person.addresses.every
-        .filter(predicate)
-        .city.country
-        .modify(this) { Country(it.name.capitalize()) }
+fun Person.capitalizeCountryWhere(predicate: (Address) -> Boolean): Person = Person.addresses.every
+    .filter(predicate)
+    .city.country
+    .modify(this) { Country(it.name.capitalize()) }
