@@ -4,7 +4,9 @@ import arrow.core.NonEmptySet
 import arrow.core.None
 import arrow.core.Some
 import arrow.core.raise.either
+import com.github.gerdreiss.explore.either.UserId
 import com.github.gerdreiss.explore.either.buildUser
+import com.github.gerdreiss.explore.either.fromTheSameCity
 import com.github.gerdreiss.explore.ior.exploreIor
 import com.github.gerdreiss.explore.optics.Address
 import com.github.gerdreiss.explore.optics.Age
@@ -20,7 +22,8 @@ import com.github.gerdreiss.explore.optics.capitalizeCountryWhere
 fun main() {
     exploreOptics()
     exploreIorAndPatternMatching()
-    exploreEither()
+    exploreEither1()
+    exploreEither2()
 }
 
 private fun exploreOptics() {
@@ -41,7 +44,7 @@ private fun exploreOptics() {
     println(p.capitalizeCountryWhere { it.city.name.value != "Dublin" })
 }
 
-private fun exploreIorAndPatternMatching() {
+private fun exploreIorAndPatternMatching() = //
     when (val maybeIor = exploreIor()) {
         None -> {
             println("Ior is empty")
@@ -50,21 +53,32 @@ private fun exploreIorAndPatternMatching() {
         is Some -> {
             maybeIor.value
                 .fold(
-                    { left -> println("Ior is left: $left") },
-                    { right -> println("Ior is right: $right") },
+                    { println("Ior is left: $it") },
+                    { println("Ior is right: $it") },
                     { left, right -> println("Ior is both: left = $left, right = $right") },
                 )
         }
     }
-}
 
-fun exploreEither() {
+fun exploreEither1() = //
     either {
         val user1 = buildUser("Ivan", 40, "Murmansk").bind()
         val user2 = buildUser("Masha", 30, "Murmansk").bind()
         user1 to user2
     }.fold(
-        { left -> println("Building User objects failed: $left") },
-        { right -> println("Users built: $right") },
+        { println("Building User objects failed: $it") },
+        { (user1, user2) -> println("Users built: $user1, $user2") },
     )
-}
+
+fun exploreEither2() = //
+    fromTheSameCity(UserId("1"), UserId("2"))
+        .fold(
+            { println("Finding User objects failed: $it") },
+            {
+                if (it) {
+                    println("Users are from the same city")
+                } else {
+                    println("Users are not from the same city")
+                }
+            },
+        )
