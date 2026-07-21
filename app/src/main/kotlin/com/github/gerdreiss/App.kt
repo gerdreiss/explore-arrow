@@ -8,22 +8,15 @@ import com.github.gerdreiss.explore.either.UserId
 import com.github.gerdreiss.explore.either.buildUser
 import com.github.gerdreiss.explore.either.fromTheSameCity
 import com.github.gerdreiss.explore.ior.exploreIor
-import com.github.gerdreiss.explore.optics.Address
-import com.github.gerdreiss.explore.optics.Age
-import com.github.gerdreiss.explore.optics.City
-import com.github.gerdreiss.explore.optics.Country
-import com.github.gerdreiss.explore.optics.Name
-import com.github.gerdreiss.explore.optics.Person
-import com.github.gerdreiss.explore.optics.Street
-import com.github.gerdreiss.explore.optics.capitalizeCountryCopy
-import com.github.gerdreiss.explore.optics.capitalizeCountryModify
-import com.github.gerdreiss.explore.optics.capitalizeCountryWhere
+import com.github.gerdreiss.explore.ior.normalizedTitle
+import com.github.gerdreiss.explore.optics.*
 
 fun main() {
     exploreOptics()
     exploreIorAndPatternMatching()
     exploreEither1()
     exploreEither2()
+    exploreIor2()
 }
 
 private fun exploreOptics() {
@@ -81,4 +74,12 @@ fun exploreEither2() = //
                     println("Users are not from the same city")
                 }
             },
+        )
+
+fun exploreIor2() = //
+    normalizedTitle(" bla bloop ")
+        .fold(
+            { println("Ior.Left: $it") },
+            { println("Ior.Right: $it") },
+            { left, right -> println("Ior.Both: $left, $right") },
         )
